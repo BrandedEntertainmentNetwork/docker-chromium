@@ -1,5 +1,5 @@
-FROM debian:10.7
-LABEL version "2.0"
+FROM debian:11
+LABEL version "3.0"
 LABEL description "Headless chromium with rich font support."
 
 ENV DEBIAN_FRONTEND noninteractive
