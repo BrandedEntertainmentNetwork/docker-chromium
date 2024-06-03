@@ -1,13 +1,13 @@
-FROM debian:11
-LABEL version "3.0"
-LABEL description "Headless chromium with rich font support."
+FROM debian:bookworm
+LABEL version="12.0"
+LABEL description="Headless Chromium with rich font support."
 
 ENV DEBIAN_FRONTEND noninteractive
 
-ENV APT_PACKAGES wget curl unzip apt-transport-https apt-utils ca-certificates software-properties-common fontconfig
+ENV APT_PACKAGES wget curl unzip apt-transport-https apt-utils ca-certificates  fontconfig
 
 # Proper font support.
-ENV FONT_MISC fonts-symbola ttf-ubuntu-font-family ttf-bitstream-vera
+ENV FONT_MISC fonts-symbola fonts-ubuntu fonts-ubuntu-console ttf-bitstream-vera
 ENV FONT_CHI fonts-arphic-ukai fonts-arphic-uming
 ENV FONT_JPN fonts-ipafont-mincho fonts-ipafont-gothic
 ENV FONT_KOR fonts-unfonts-core
@@ -25,13 +25,12 @@ RUN mkdir -p /home/chromium && \
 RUN apt-get update && \
     apt-get install --yes ${APT_PACKAGES} && \
     echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true | debconf-set-selections && \
-    apt-add-repository non-free && \
-    apt-add-repository contrib && \
+    echo "deb http://deb.debian.org/debian bookworm contrib non-free" > /etc/apt/sources.list.d/contrib.list && \
     apt-get update && \
     apt-get install --yes ttf-mscorefonts-installer ${FONT_PACKAGES} && \
     apt-get install --yes --no-install-recommends chromium && \
     fc-cache --force --verbose && \
-    # apt-get remove --yes ${APT_PACKAGES} && \
+    apt-get remove --yes ${APT_PACKAGES} && \
     rm -rf /var/lib/apt/lists/*
 
 USER chromium
