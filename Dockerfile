@@ -30,7 +30,6 @@ RUN apt-get update && \
     apt-get install --yes ttf-mscorefonts-installer ${FONT_PACKAGES} && \
     apt-get install --yes --no-install-recommends chromium && \
     fc-cache --force --verbose && \
-    apt-get remove --yes ${APT_PACKAGES} && \
     rm -rf /var/lib/apt/lists/*
 
 USER chromium
