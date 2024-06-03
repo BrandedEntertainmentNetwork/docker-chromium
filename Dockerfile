@@ -40,6 +40,6 @@ WORKDIR /home/chromium
 EXPOSE 9222
 
 ENTRYPOINT [ "/usr/bin/chromium", \
-             "--headless", "--disable-gpu", \
+             "--headless", "--disable-gpu", "--no-sandbox", \
              "--remote-debugging-address=0.0.0.0", \
              "--remote-debugging-port=9222" ]
